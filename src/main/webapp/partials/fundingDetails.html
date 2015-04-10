@@ -1,0 +1,60 @@
+<p class="breadcrumbs"><a data-ui-sref="fundings">Fundings &#187;</a></p>
+<h1 class="subTitle">
+<span data-ng-show="fundId">Funding {{fundId}}</span>
+</h1>
+<div class="row demographics">
+<div class="col-md-3 col-sm-6">
+		<ul>
+			<li>Status</li>
+			<li class="focus">{{status}}</li>
+		</ul>
+	</div>
+	<div class="col-md-3 col-sm-6">
+		<ul>
+			<li>Sector</li>
+			<li class="focus">{{sector}}</li>
+		</ul>
+	</div>
+	<div class="col-md-3 col-sm-6">
+		<ul>
+			<li>Industry</li>
+			<li class="focus">{{industry}}</li>
+		</ul>
+	</div>
+	<div class="col-md-3 col-sm-6">
+	<ul>
+			<li>Zip Code</li>
+			<li class="focus">{{zip}}</li>
+		</ul>
+	</div>
+</div>
+
+<div class="row">
+	<div  class="col-md-12">
+		<h3 class="sub-section-title">General Health and Payment Codes Distribution</h3>
+	</div>
+	<div class="col-md-8">
+		<div id="pieChart"></div>	
+	</div>		
+	<div class="payments col-md-4">
+	<ul>
+		<li>Payback Amount</li>
+		<li class="focus">{{paybackAmount}}</li>
+	</ul>
+	<ul>
+		<li>Total Payments Made</li>
+		<li class="focus">{{totalAmountPaid}}</li>
+	</ul>
+	</div>
+</div>
+
+<h3 class="sub-section-title">Payments Time Series</h3>
+<div id="lineChart"></div>
+<table data-ng-table="tableParams" class="table" data-show-filter="true">
+<tr data-ng-repeat="payment in payments">
+    <td data-title="'Payment Id'" data-filter="{ 'paymentId': 'text' }" data-sortable="'paymentId'">{{payment.paymentId}}</td>
+    <td class="no-wrap" data-placeholder="YYYY-MM-DD" data-title="'System-Date'" data-filter="{ 'systemDate': 'text' }" data-sortable="'systemDate'">{{payment.systemDate}}</td>
+    <td data-title="'Pmt Code'"data-filter="{ 'pmtCode': 'text' }" data-sortable="'pmtCode'">{{payment.pmtCode}}</td>
+    <td data-title="'Amount'"data-filter="{ 'amount': 'text' }" data-sortable="'amount'">{{payment.amount}}</td>
+</tr>
+</table>

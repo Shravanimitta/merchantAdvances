@@ -1,0 +1,238 @@
+html,body {
+	height: 100%;
+	font-family: Lato, Helvetica, Arial, Sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+	font-family: Lato, Helvetica, Arial, Sans-serif;
+}
+
+body {
+	margin: 0;
+}
+
+a {
+	color: #4189D1;
+	text-decoration: none;
+}
+
+a:hover, a:focus, a:active {
+	text-decoration: none;
+}
+
+.wrapper {
+	padding: 0;
+	background: #fff;
+}
+
+.page-header {
+	padding: 15px 20px 10px;
+	margin: 0;
+	border-bottom: 1px solid #1F2C38;
+	background: #44617E;
+	color: #fff;
+	font-weight: lighter;
+	margin-bottom: 15px;
+}
+
+.page-header .page-title {
+	margin: 0;
+	font-weight: lighter;
+}
+
+.page-title a, .page-title a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+.main-content {
+    padding: 0 20px 20px;
+}
+.subTitle {
+	margin-bottom: 5px;
+	font-weight: lighter;
+	color: #44617E;/* #2c3e50; */
+	margin-top: 0px;
+	padding-top: 0px;
+}
+
+.fundIdLink {
+	display: block;
+}
+
+/* ng-table styles and overrides */
+.ng-table th, .ng-table td {
+    padding: 5px;
+    text-align: left;
+}
+
+.ng-table {
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+}
+
+.ng-table tr {
+    border-bottom: 1px solid #eee;
+}
+
+.ng-table tr:nth-child(even) {
+    background: #f6f6f6;
+}
+.ng-table thead tr {
+    background: #eee;
+}
+
+.ng-table thead>tr>th{
+	min-width: 76px;
+	vertical-align: top;
+	padding: 5px;
+	text-align: center;
+	color: #44617E;
+	font-weight: bold;
+}
+
+.ng-table th.sortable .sort-indicator {
+	display: inline-block;
+}
+
+.ng-table th.sortable .sort-indicator:after, .ng-table th.sortable .sort-indicator:before {
+	border-color: #44617E transparent;
+	border-top-color: #44617E;
+}
+.ng-table th.filter .input-filter {
+	border-radius: 0;
+	font-size: 0.85em;
+  	padding: 5px;
+  	text-align: center;
+}
+
+/* bootstrap pagination and btn style overrides */
+.pagination {
+	margin: 0;
+}
+
+.pagination a {
+    color: #44617E;
+}
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    background: #44617e;
+    border-color: #44617e;
+}
+
+.btn-default {
+    color: #44617e;
+}
+
+.btn:active, .btn.active {
+    background: #44617e;
+    color: #fff;
+    box-shadow: none;
+    border-color: #44617e;
+}
+
+.btn {
+    border-radius: 0;
+}
+
+.pagination>li:first-child>a, .pagination>li:first-child>span, .pagination>li:last-child>a, .pagination>li:last-child>span {
+    border-radius: 0;
+}
+
+.no-wrap {
+	white-space: nowrap;
+}
+
+#lineChart {
+	width: 100%;
+	margin-right: 20px;
+	box-sizing: border-box;
+	margin-left: -15px;
+}
+
+.c3-target-Amount, .c3-target-Payment-Id, .c3-legend-item-Amount, .c3-legend-item-Payment-Id {
+	display: none;
+}
+
+.sub-section-title {
+	color: #44617E;
+	padding: 10px 0 3px 5px;
+	border-bottom: 1px solid #dedede;
+	margin-top: 20px;
+	clear: both;
+}
+
+.demographics {
+	overflow: hidden;
+	color: #44617E;
+}
+.demographics li {
+	display: block;
+	font-size: 1.5em;
+	font-weight: lighter;
+	background: #f6f6f6;
+}
+
+.demographics ul li:first-child {
+	padding-top: 10px;	
+}
+
+.demographics div {
+    padding-bottom: 9999px;    
+    margin-bottom: -9999px;    
+    background: #fff;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.demographics ul {
+	list-style: none;
+	text-align: center;
+	padding-bottom: 9999px;
+	margin-bottom: -9999px;
+	background: #f6f6f6;
+	margin-top: 15px;
+	vertical-align: middle;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.demographics ul li:last-child {
+	padding-bottom: 10px;	
+}
+
+.demographics .focus {
+	font-weight: normal;
+}
+
+.c3-chart-arcs .c3-chart-arcs-title {
+	font-size: 1.2em;
+}
+
+.payments {
+    color: #44617E;
+}
+
+.payments ul {
+	list-style: none;
+	background: #f6f6f6;
+	margin: 20px 0;
+	padding: 20px;
+	font-size: 2.2em;
+  	text-align: center;
+}
+	
+.payments ul > li:first-child {
+  font-size: 0.9em;
+  font-weight: lighter;
+  text-align: center;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow: auto;
+}
+
+.breadcrumbs {
+	margin: 0;;
+}

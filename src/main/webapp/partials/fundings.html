@@ -1,0 +1,17 @@
+<h1 class="subTitle">Fundings</h1>
+<div class="table-wrapper">
+	<table data-ng-table="tableParams" class="table" data-show-filter="true">
+	<tr data-ng-repeat="funding in fundings">
+	    <td data-title="'Fund Id'" data-filter="{ 'fundId': 'text' }" data-sortable="'fundId'"><a href="javascript:void(0);" data-ng-click="goToFundingPayments(funding.fundId)" class="ui-grid-cell-contents fundIdLink">{{funding.fundId}}</a></td>
+	    <td class="no-wrap" data-placeholder="YYYY-MM-DD" data-title="'Fund Date'" data-filter="{ 'fundDate': 'text' }" data-sortable="'fundDate'">{{funding.fundDate}}</td>
+	    <td data-title="'Merchant Id'"data-filter="{ 'merchId': 'text' }" data-sortable="'merchId'">{{funding.merchId}}</td>
+	    <td data-title="'Term'"data-filter="{ 'term': 'text' }" data-sortable="'term'">{{funding.term}}</td>
+	    <td data-title="'Factor Point'"data-filter="{ 'factorPnt': 'text' }" data-sortable="'factorPnt'">{{funding.factorPnt}}</td>
+	    <td data-title="'Funded Amount'"data-filter="{ 'fundedAmount': 'text' }" data-sortable="'fundedAmount'">{{funding.fundedAmount}}</td>
+	    <td data-title="'Payback Amount'"data-filter="{ 'paybackAmount': 'text' }" data-sortable="'paybackAmount'">{{funding.paybackAmount}}</td>
+	    <td data-title="'Status'"data-filter="{ 'status': 'text' }" data-sortable="'status'">{{funding.status}}</td>
+	    <td data-title="'Sector'"data-filter="{ 'sector': 'text' }" data-sortable="'sector'">{{funding.sector}}</td>
+	    <td data-title="'Industry'"data-filter="{ 'industry': 'text' }" data-sortable="'industry'">{{funding.industry}}</td>
+	</tr>
+	</table>
+</div>
