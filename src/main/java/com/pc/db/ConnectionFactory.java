@@ -1,15 +1,15 @@
 package com.pc.db;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class ConnectionFactory {
 	//establish connection to database using connection factory
 	public static ConnectionFactory instance = new ConnectionFactory();
-	String url = "jdbc:mysql://127.7.102.130:3306/jbossews";
-	String user = "adminESu7ZNr";
-	String password = "ntinIQ5QkGY6";
 	String driverClass = "com.mysql.jdbc.Driver"; 
 	
 	private ConnectionFactory() {
@@ -25,9 +25,23 @@ public class ConnectionFactory {
 	}
 	
 	public Connection getConnection() throws SQLException, 
-	ClassNotFoundException {
-		Connection connection = 
-			DriverManager.getConnection(url, user, password);
+	ClassNotFoundException, IOException {
+		
+		Properties props = new Properties();
+		InputStream is = getClass().getClassLoader().getResourceAsStream("db.properties");
+		   
+		   if(is != null){
+			   props.load(is);
+		   }
+		   is.close();
+		   if (driverClass != null) {
+		       Class.forName(driverClass) ;
+		   }
+		   String url = props.getProperty("jdbc.url");
+		   String username = props.getProperty("jdbc.username");
+		   String password = props.getProperty("jdbc.password");
+
+		   Connection connection = DriverManager.getConnection(url, username, password);
 		return connection;
 	}
 	
