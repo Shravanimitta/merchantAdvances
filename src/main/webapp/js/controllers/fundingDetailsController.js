@@ -160,9 +160,9 @@ pcApp.controller('FundingDetailsController', ['$scope', '$http','$state', 'ngTab
 					        ]
 					    },
 					    
-					    zoom: {
+					   /* zoom: {
 					        enabled: true
-					    },
+					    },*/
 					    legend: {
 					    	item: {
 					    		onclick: function(id){ return; },
