@@ -236,3 +236,7 @@ a:hover, a:focus, a:active {
 .breadcrumbs {
 	margin: 0;;
 }
+
+.loading {
+	padding-left: 15px;
+}
