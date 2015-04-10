@@ -79,7 +79,7 @@ public class FundingController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
 
-	//Class that holds the funding list as well as the count of totals records. Created to send funding list and total count in the response without disturbing the funding class structure.
+	//Class that holds the funding list as well as the count of totals records.
 	class FundingsWrapper {
 		List<Funding> fundingsList;
 		int totalCount;

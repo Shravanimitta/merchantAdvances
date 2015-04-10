@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.pc.db.ConnectionFactory;
 import com.pc.ob.Payment;
-//Service provider for servlet payment
+//Service provider for payments
 public class PaymentDAO {
 	Connection connection;
 	Statement stmt;
@@ -23,6 +23,7 @@ public class PaymentDAO {
 				getInstance().getConnection();
 		return con;
 	}
+	
 	
 	//returns the total count of records for the corresponding query
 	public int getTotalCount(String filterQuery){
@@ -64,38 +65,37 @@ public class PaymentDAO {
 		return total;
 	}
 	
-	public List<Payment> viewAllPayments(int fundId, int skip, int rowCount, String sortQuery, String filterQuery)
+	//get payments for a fund Id
+	public List<Payment> getPaymentsForFunding(int fundId, int skip, int rowCount, String sortQuery, String filterQuery)
 	{
 		String query = "";
 		if(sortQuery != null && sortQuery != ""){
 			if(filterQuery != null && filterQuery != "") {
-				query = "select payments.paymentId, payments.systemDate, payments.pmtCode, payments.amount, fundings.status from payments, fundings where " + filterQuery + " and payments.fundId = fundings.fundId and payments.fundId=" + fundId+ " " + sortQuery + " limit " + skip + ", " + rowCount ;
+				query = "select paymentId, systemDate, pmtCode, amount from payments where " + filterQuery + " and fundId =" + fundId+ " " + sortQuery + " limit " + skip + ", " + rowCount;
 			}
 			else {
-				query = "select payments.paymentId, payments.systemDate, payments.pmtCode, payments.amount, fundings.status from payments, fundings where payments.fundId = fundings.fundId and payments.fundId="+ fundId + sortQuery + " limit " + skip + ", " + rowCount ;
+				query = "select paymentId, systemDate, pmtCode, amount from payments where fundId="+ fundId + sortQuery + " limit " + skip + ", " + rowCount ;
 			}
 		}
 		else{
-			query = "select payments.paymentId, payments.systemDate, payments.pmtCode, payments.amount, fundings.status from payments, fundings where payments.fundId="+ fundId+" limit " + skip + ", " + rowCount;
+			query = "select paymentId, systemDate, pmtCode, amount from payments where fundId="+ fundId+" limit " + skip + ", " + rowCount;
 		}
 
 		List<Payment> list = new ArrayList<Payment>();
-		Payment Payment = null;
+		
 		try {
 			connection = getConnection();
 			stmt = connection.createStatement();
-			//get result set from query execution
 			ResultSet rs = stmt.executeQuery(query);
-			//add the result set data to an arrayList element
+			//build payments list from result set
 			while (rs.next()) {
-				Payment = new Payment();
-				Payment.setPaymentId(rs.getInt("paymentId"));
-				Payment.setStatus(rs.getString("status"));
-				Payment.setSystemDate(rs.getDate("systemDate"));
-				Payment.setSystemDateUnformatted(rs.getString("systemDate"));
-				Payment.setPmtCode(rs.getString("pmtCode"));
-				Payment.setAmount(rs.getDouble("amount"));
-				list.add(Payment);
+				Payment p = new Payment();
+				p.setPaymentId(rs.getInt("paymentId"));
+				p.setSystemDate(rs.getDate("systemDate"));
+				p.setSystemDateUnformatted(rs.getString("systemDate"));
+				p.setPmtCode(rs.getString("pmtCode"));
+				p.setAmount(rs.getDouble("amount"));
+				list.add(p);
 			}
 			rs.close();
 		} catch (SQLException e) {
@@ -117,5 +117,4 @@ public class PaymentDAO {
 		//return the list
 		return list;
 	}
-
 }

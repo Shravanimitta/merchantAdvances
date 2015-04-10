@@ -3,7 +3,6 @@
 	pcApp.config (['$stateProvider', '$urlRouterProvider' ,function($stateProvider,$urlRouterProvider){
 		// For any unmatched url, redirect to /fundings
 		  $urlRouterProvider.otherwise("/fundings");
-		  //
 		  // Now set up the states
 		  $stateProvider
 		  //state for funding details
@@ -12,13 +11,8 @@
 		      templateUrl: "partials/fundings.html",
 		      controller: "FundingController"
 		    })
-		  //state for all payment details - NO NEED TO ACCESS ALL PAYMENTS
-		    /*.state('payments', {
-		      url: "/payments",
-		      templateUrl: "partials/payments.html",
-		      controller: "FundingDetailsController"
-		    })*/
-		   //state of payments of a fund 
+		  
+		  //state for payments of a fund 
 		    .state('fundingDetails',{
 				url:'/fundings/:fundId',
 				templateUrl: "partials/fundingDetails.html",

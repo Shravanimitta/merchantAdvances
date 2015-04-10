@@ -1,7 +1,7 @@
 var pcApp = angular.module('pcApp');
 
 pcApp.controller('FundingDetailsController', ['$scope', '$http','$state', 'ngTableParams', '$stateParams',function($scope, $http, $state, ngTableParams, $stateParams){
-
+	//reroute to funding page if fund id is empty
 	if($stateParams.fundId){
 		$scope.fundId = $stateParams.fundId;
 	}
@@ -25,27 +25,19 @@ pcApp.controller('FundingDetailsController', ['$scope', '$http','$state', 'ngTab
 		  }, {
 		      //total: 0, // length of data
 		      getData: function($defer, params) {
-		    	  //for later use as bar chart
-		    	  //$scope.paybacksChart;
-		          // get sort param
-		    	  var sortParam = params.sorting();
-		    	//set sorting parameter to paymentId by default
-		    	  var sortBy = "paymentId";
-		    	//set sorting order to ascending order by default  
-		    	  var sortOrder = "asc";
-		    	  
+		    	  var sortParam = params.sorting();   // get sort params
+		    	  var sortBy = "paymentId";           //set sorting parameter to paymentId by default
+		    	  var sortOrder = "asc";			  //set sorting order to ascending order by default  
 		    	//loop through the sorting parameters and store in an array. 
 		    	  for(var propertyName in sortParam) { 
 		    		sortBy = propertyName;
 		    		sortOrder = sortParam[propertyName];
 				  }
-		    	  
-		    	//get the page number and rows per page  
-		    	  var pageNo = params.$params.page;
+		    	//get the page number and rows per page
+		    	  var pageNo = params.$params.page;   
 		          var perPage = params.$params.count;
-		          
-		        //get the filter parameters  
-		    	  var filters = params.filter();
+		        //get the filter parameters    
+		    	  var filters = params.filter();   
 		    	  var filterQuery = '';
 		    	  var i = 1;
 		    	  for(var propertyName in filters) { 
@@ -59,25 +51,19 @@ pcApp.controller('FundingDetailsController', ['$scope', '$http','$state', 'ngTab
 		    		  filterQuery = filterQuery + "&fundId="+$stateParams.fundId;
 		    	  }
 		    	  		    	  
-		    	  //check empty object
+		    	//form url for the ajax call and append required parameters based on availability
 		    	  if(filterQuery !== '') {
-		    			  url = "fundingDetails?sortBy="+sortBy+"&pageNo="+pageNo+"&perPage="+perPage+"&sortOrder="+sortOrder+filterQuery;
+		    			  url = "payments?sortBy="+sortBy+"&pageNo="+pageNo+"&perPage="+perPage+"&sortOrder="+sortOrder+filterQuery;
 		    	  }
 		    	  else{	    		  
-		    			  url = "fundingDetails?sortBy="+sortBy+"&pageNo="+pageNo+"&perPage="+perPage+"&sortOrder="+sortOrder;
+		    			  url = "payments?sortBy="+sortBy+"&pageNo="+pageNo+"&perPage="+perPage+"&sortOrder="+sortOrder;
 		    	  }
 		         
 		    	  //make ajax call to get the funding payment details and status info 
 		    	  $scope.config={};
 		    	  $http.get(url)
 		          .success(function (data) {
-		           	$scope.payments = data.payments;
-		           	$scope.status = data.status;
-		           	$scope.sector = data.sector || "-";
-		           	$scope.industry = data.industry || "-";
-		           	$scope.zip = data.zip;
-		           	$scope.paybackAmount = data.paybackAmount;
-		           	
+					$scope.payments = data.paymentsList;
 		          	params.total(data.totalCount);
 		          
 		          //bind the data to $scope.payments
@@ -87,25 +73,11 @@ pcApp.controller('FundingDetailsController', ['$scope', '$http','$state', 'ngTab
 		          //*charting Code Start*/
 		          //***********************/
 		          	//variables for line chart
-		          	var chartDateArr = [], 
-		          	chartPaymentCodeArr = [],
-		          	amountArr =  [],
-		          	paymentIdArr = [];
+		          	var chartDateArr = ["Date"], chartPaymentCodeArr = ["Payment Code"], 
+		          	amountArr = ["Amount"], paymentIdArr = ["Payment Id"];
 		          	
-		          	// variables for pie chart
-		          	 var PaymentCodeP = ["Payment"],
-		          	 PaymentCodeB = ["Bounce"],
-		          	 PaymentCodeE = ["Error"],
-		          	 PaymentCodeF = ["Uncleared"],
-		          	 PaymentCodeN = ["Note"],
-		          	 PaymentCodeS = ["Special"];
-		          
-		          //add date and payment codes to corresponding arrays for display using tooltip in Line chart	
-		          	chartDateArr.push("Date");
-		          	chartPaymentCodeArr.push("Payment Code");
-		          	amountArr.push("Amount");
-		          	paymentIdArr.push("Payment Id");
-		          	//map of payment ids to payment code
+		          	//add date and payment codes to corresponding arrays for display using tooltip in Line chart	
+		          	//map of payment ids to payment code to get payment codes on tooltip
 		          	$scope.map = {};
 		          	for(p in $scope.payments) {
 		          		//line chart related data
@@ -113,53 +85,21 @@ pcApp.controller('FundingDetailsController', ['$scope', '$http','$state', 'ngTab
 		          		chartDateArr.push($scope.payments[p].systemDateUnformatted);
 		          		amountArr.push($scope.payments[p].amount);
 		          		paymentIdArr.push($scope.payments[p].paymentId);
-		          	//assuming 1 for Payment
+		          		//assuming 1 for Payment
 		          		if($scope.payments[p].pmtCode=="P"){
 		          			chartPaymentCodeArr.push(1) 
-	          			}
-		          		else {
-		          	//0 for all other cases like bounced, error, note, uncleared etc 		
+	          			} else {
+		          			//and 0 for all other cases like bounced, error, note, uncleared etc 		
 		          			chartPaymentCodeArr.push(0) 
 	          			}
-		          		
-	          			//pie chart related data
-		          		if($scope.payments[p].pmtCode=="P"){
-		          			PaymentCodeP.push(1);
-		          		}
-		          		else if($scope.payments[p].pmtCode=="B"){
-		          			PaymentCodeB.push(1); 
-		          		}
-		          		else if($scope.payments[p].pmtCode=="E"){
-		          			PaymentCodeE.push(1);
-		          		}
-		          		else if($scope.payments[p].pmtCode=="U"){
-		          			PaymentCodeF.push(1);
-		          		}
-		          		else if($scope.payments[p].pmtCode=="F"){
-		          			PaymentCodeF.push(1); 
-		          		}
-		          		else if($scope.payments[p].pmtCode=="N"){
-		          			PaymentCodeN.push(1);
-		          		}
-		          		else if($scope.payments[p].pmtCode=="S"){
-		          			PaymentCodeS.push(1);
-		          		}
 	          		}
 		          //Plot the line chart for depicting payments as a time series
-		          //generate line chart
 		          	var lineChart = c3.generate({
 						bindto: "#lineChart",
 					    data: {
 					        x: 'Date',
-				//	        xFormat: '%Y%m%d', // 'xFormat' can be used as custom format of 'x'
-					        columns: [
-					                  chartDateArr,
-					                  chartPaymentCodeArr,
-					                  amountArr,
-					                  paymentIdArr
-					        ]
+					        columns: [ chartDateArr, chartPaymentCodeArr, amountArr, paymentIdArr ]
 					    },
-					    
 					   /* zoom: {
 					        enabled: true
 					    },*/
@@ -203,6 +143,7 @@ pcApp.controller('FundingDetailsController', ['$scope', '$http','$state', 'ngTab
 					            }
 					          
 					            value = valueFormat(d[i].value, d[i].ratio, d[i].id, d[i].index);
+					            //replace the digits with the payment Code 
 					            if(d[i].id == "Payment Code"){
 					            	value = $scope.map[d[2].value];
 					            }
@@ -221,52 +162,68 @@ pcApp.controller('FundingDetailsController', ['$scope', '$http','$state', 'ngTab
 					    	  }
 					    }
 					});// line chart ends
-		          	
-		          	//pie chart code for overall health of payments 
-		          	var pieChart = c3.generate({
-		          		bindto: "#pieChart",
-					    data: {
-					        columns: [
-									PaymentCodeP,
-									PaymentCodeB,
-									PaymentCodeE,
-									PaymentCodeF,
-									PaymentCodeN,
-									PaymentCodeS
-					        ],
-					        type : 'donut',
-						    legend: {
-						    	item: {
-						    		onclick: function(id){ return false; }
-						    	}
-						    },
-					    },
-					    donut: {
-					    	title: "Payment Codes Distribution"
-					    }
-		          	
-					});
-		          	
-		          	
 		          });
 		    	  
+		    	// variables for payment codes distribution donut chart
+	          	 var PaymentCodeP = ["Payment"], PaymentCodeB = ["Bounce"], PaymentCodeE = ["Error"],
+	          	 PaymentCodeF = ["Uncleared"], PaymentCodeN = ["Note"], PaymentCodeS = ["Special"];
 		    	  
-		    	  //make another ajax call to get payments and amount
-		    	  var healthUrl = "healthDetails?" + "fundId="+$stateParams.fundId;
-		    	  $http.get(healthUrl)
-		          .success(function (healthData) {
-		        	  $scope.healthData = healthData;
+		    	  //make an ajax call to get payments codes and amount paid
+		    	  var url = "fundingDetails?" + "fundId="+$stateParams.fundId;
+		    	  $http.get(url).success(function (fdData) {
+					$scope.status = fdData.status;
+					$scope.sector = fdData.sector || "-";
+					$scope.industry = fdData.industry || "-";
+					$scope.zip = fdData.zip;
+					$scope.paybackAmount = fdData.paybackAmount;
+		        	  
 		        	  var totalAmountPaid = 0;
-		        	  for(i in healthData){ 
-		        		  totalAmountPaid = totalAmountPaid + healthData[i].amount;
+		        	  for(i in fdData.amounts){ 
+		        		  totalAmountPaid = totalAmountPaid + fdData.amounts[i];
+		        		//donut chart related data
+			          		if(fdData.pmtCodes[i]=="P"){
+			          			PaymentCodeP.push(1);
+			          		}
+			          		else if(fdData.pmtCodes[i]=="B"){
+			          			PaymentCodeB.push(1); 
+			          		}
+			          		else if(fdData.pmtCodes[i]=="E"){
+			          			PaymentCodeE.push(1);
+			          		}
+			          		else if(fdData.pmtCodes[i]=="U"){
+			          			PaymentCodeF.push(1);
+			          		}
+			          		else if(fdData.pmtCodes[i]=="F"){
+			          			PaymentCodeF.push(1); 
+			          		}
+			          		else if(fdData.pmtCodes[i]=="N"){
+			          			PaymentCodeN.push(1);
+			          		}
+			          		else if(fdData.pmtCodes[i]=="S"){
+			          			PaymentCodeS.push(1);
+			          		}
 		        	  }
 		        	  $scope.totalAmountPaid =  parseFloat(totalAmountPaid).toFixed(2);
-		        	  
+		        	//donut chart code for overall health of payments 
+			          	var donutChart = c3.generate({
+			          		bindto: "#donutChart",
+						    data: {
+						    	//array of payment code arrays
+						        columns: [ PaymentCodeP, PaymentCodeB, PaymentCodeE, PaymentCodeF, PaymentCodeN, PaymentCodeS ],
+						        type : 'donut',
+							    legend: {
+							    	item: {
+							    		onclick: function(id){ return false; }
+							    	}
+							    },
+						    },
+						    donut: {
+						    	title: "Payment Codes Distribution"
+						    }
+			          	
+						});
 		          });
 		      }
 		  });
- 
-		 
-		 
 		}		  
 ]);

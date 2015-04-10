@@ -2,21 +2,26 @@ package com.pc.ob;
 
 import java.util.List;
 
-//Class that holds the payment list as well as other details of a funding 
 public class FundingDetails {
-	private int totalCount;
+	private List<String> pmtCodes;
+	private List<Double> amounts;
 	private String status;
 	private String sector;
 	private String industry;
 	private int zip;
 	private double paybackAmount;
-	private List<Payment> payments;
 	
-	public int getTotalCount() {
-		return totalCount;
+	public List<String> getPmtCodes() {
+		return pmtCodes;
 	}
-	public void setTotalCount(int totalCount) {
-		this.totalCount = totalCount;
+	public void setPmtCodes(List<String> pmtCodes) {
+		this.pmtCodes = pmtCodes;
+	}
+	public List<Double> getAmounts() {
+		return amounts;
+	}
+	public void setAmounts(List<Double> amounts) {
+		this.amounts = amounts;
 	}
 	public String getStatus() {
 		return status;
@@ -47,11 +52,5 @@ public class FundingDetails {
 	}
 	public void setPaybackAmount(double paybackAmount) {
 		this.paybackAmount = paybackAmount;
-	}
-	public List<Payment> getPayments() {
-		return payments;
-	}
-	public void setPayments(List<Payment> payments) {
-		this.payments = payments;
 	}
 }
